@@ -233,6 +233,12 @@ aws_secret_access_key = test
 [profile floci]
 region = eu-west-1
 output = json
+endpoint_url = http://localhost:4566
+services = floci-services
+
+[services floci-services]
+sts =
+  endpoint_url = http://localhost:4566
 ```
 
 Then run your AWS CLI commands as usual, but selecting the **floci** profile:
@@ -243,3 +249,5 @@ aws s3 ls --profile floci
 
 > [!NOTE]
 > Set `AWS_PROFILE=floci` as an environment variable to skip the profile flag.
+
+The `endpoint_url` and `services` options are needed only for the `AWS Toolkit integration` in `VSCode`.
