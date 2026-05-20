@@ -212,3 +212,34 @@ Remove-Item -Recurse -Force floci-data
 | S3 bucket name conflict | Account ID mismatch | Pass explicit bucket names via `-var` flags |
 | `s3_use_path_style` warning | AWS provider version mismatch | Requires AWS provider `~> 5.0`+; already satisfied by `~> 6.0` |
 | State file references real ARNs after switch | Leftover state from a previous real AWS run | Run `terraform destroy` first, then delete `terraform.tfstate` |
+
+## How to use Floci with AWS CLI
+
+Set the environment variables using the CMD or Shel scripts under `floci/`:
+
+```shell
+call set-env.cmd
+```
+
+Add a new `floci` profile under your `.aws/credentials` and `.aws/configure` settings:
+
+```toml
+[floci]
+aws_access_key_id = test
+aws_secret_access_key = test
+```
+
+```toml
+[profile floci]
+region = eu-west-1
+output = json
+```
+
+Then run your AWS CLI commands as usual, but selecting the **floci** profile:
+
+```shell
+aws s3 ls --profile floci
+```
+
+> [!NOTE]
+> Set `AWS_PROFILE=floci` as an environment variable to skip the profile flag.

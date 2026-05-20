@@ -15,3 +15,6 @@ Additionally, the following AI resources have been applied to fine-grain and cus
   - `awslabs.terraform-mcp-server`
   - See sample configuration for VSCode [here](https://github.com/luisalbertogh/awesome-copilot-custom-agents/blob/main/mcp/mcp.json)
 
+## Floci Emulation
+
+How to use this code with Floci is described [here](./docs/floci.md).
