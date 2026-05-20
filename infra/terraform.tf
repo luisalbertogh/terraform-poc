@@ -12,10 +12,5 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket  = "terraform-poc-tfstate-1234"
-    key     = "terraform.tfstate"
-    region  = "eu-west-1"
-    encrypt = true
-  }
+  backend "local" {}
 }

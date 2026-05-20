@@ -1,0 +1,14 @@
+services:
+  floci:
+    image: floci/floci:latest
+    ports:
+      - "4566:4566"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock   # required for Lambda
+      - ./floci-data:/app/data
+    environment:
+      FLOCI_HOSTNAME: localhost
+      FLOCI_DEFAULT_REGION: eu-west-1
+      FLOCI_DEFAULT_ACCOUNT_ID: "000000000000"
+      FLOCI_STORAGE_MODE: hybrid                    # persists state across restarts
+      FLOCI_SERVICES_LAMBDA_HOT_RELOAD_ENABLED: "true"
