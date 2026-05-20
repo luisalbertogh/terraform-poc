@@ -12,7 +12,10 @@ terraform {
     }
   }
 
-  # Local backend — state is stored in terraform.tfstate in this directory.
-  # Switch to a remote backend (e.g. S3 + DynamoDB locking) for team workflows.
-  backend "local" {}
+  backend "s3" {
+    bucket  = "terraform-poc-tfstate-1234"
+    key     = "terraform.tfstate"
+    region  = "eu-west-1"
+    encrypt = true
+  }
 }

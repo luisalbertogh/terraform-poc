@@ -1,8 +1,30 @@
+# ─── Lambda Deployment Package ────────────────────────────────────────────────
+# Packages all files under src/ into a ZIP archive for Lambda deployment.
+
+data "archive_file" "lambda_package" {
+  type        = "zip"
+  source_dir  = "${path.module}/src"
+  output_path = "${path.module}/lambda_function.zip"
+}
+
+# ─── Log Group ────────────────────────────────────────────────────────────────
+# Pre-created so Terraform owns the retention policy; prevents Lambda from
+# auto-creating an unmanaged log group on first invocation.
+
+resource "aws_cloudwatch_log_group" "lambda" {
+  name              = var.log_group_name
+  retention_in_days = var.log_retention_days
+
+  tags = merge(var.common_tags, {
+    Name = var.log_group_name
+  })
+}
+
 # ─── Lambda Function ──────────────────────────────────────────────────────────
 
 resource "aws_lambda_function" "file_processor" {
-  function_name = local.lambda_function_name
-  role          = aws_iam_role.lambda_execution.arn
+  function_name = var.lambda_function_name
+  role          = var.iam_role_arn
   handler       = "handler.handler"
   runtime       = "python3.12"
 
@@ -17,22 +39,22 @@ resource "aws_lambda_function" "file_processor" {
   # hard-coded resource names.
   environment {
     variables = {
-      DESTINATION_BUCKET = local.destination_bucket_name
-      SOURCE_BUCKET      = local.source_bucket_name
+      DESTINATION_BUCKET = var.destination_bucket_name
+      SOURCE_BUCKET      = var.source_bucket_name
     }
   }
 
   # Route failed asynchronous invocations to the Dead-Letter Queue.
   dead_letter_config {
-    target_arn = aws_sqs_queue.lambda_dlq.arn
+    target_arn = var.dlq_arn
   }
 
   # Pre-create the log group so that Terraform controls its retention policy
   # and prevents a race condition where Lambda might auto-create it.
   depends_on = [aws_cloudwatch_log_group.lambda]
 
-  tags = merge(local.common_tags, {
-    Name = local.lambda_function_name
+  tags = merge(var.common_tags, {
+    Name = var.lambda_function_name
   })
 }
 
@@ -44,5 +66,5 @@ resource "aws_lambda_permission" "allow_s3" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.file_processor.function_name
   principal     = "s3.amazonaws.com"
-  source_arn    = aws_s3_bucket.source.arn
+  source_arn    = var.source_bucket_arn
 }

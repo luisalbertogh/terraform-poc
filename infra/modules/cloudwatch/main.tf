@@ -1,21 +1,6 @@
-# ─── Log Group ────────────────────────────────────────────────────────────────
-# Pre-created so Terraform owns the retention policy; prevents Lambda from
-# auto-creating an unmanaged log group on first invocation.
-
-resource "aws_cloudwatch_log_group" "lambda" {
-  name              = local.log_group_name
-  retention_in_days = var.log_retention_days
-
-  tags = merge(local.common_tags, {
-    Name = local.log_group_name
-  })
-}
-
-# ─── Alarms ───────────────────────────────────────────────────────────────────
-
 # Alert on any Lambda execution error (non-zero error count in a 5-minute window).
 resource "aws_cloudwatch_metric_alarm" "lambda_errors" {
-  alarm_name          = "${local.lambda_function_name}-errors"
+  alarm_name          = "${var.lambda_function_name}-errors"
   alarm_description   = "file-processor Lambda recorded at least one execution error"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 1
@@ -27,22 +12,21 @@ resource "aws_cloudwatch_metric_alarm" "lambda_errors" {
   treat_missing_data  = "notBreaching"
 
   dimensions = {
-    FunctionName = aws_lambda_function.file_processor.function_name
+    FunctionName = var.lambda_function_name
   }
 
   alarm_actions = var.alarm_actions
   ok_actions    = var.alarm_actions
 
-  tags = merge(local.common_tags, {
-    Name = "${local.lambda_function_name}-errors"
+  tags = merge(var.common_tags, {
+    Name = "${var.lambda_function_name}-errors"
   })
 }
 
 # Alert when the maximum execution duration exceeds 80 % of the configured
-# timeout (threshold is derived from var.lambda_timeout_seconds at plan time).
-# CloudWatch Duration metric is in milliseconds.
+# timeout. CloudWatch Duration metric is in milliseconds.
 resource "aws_cloudwatch_metric_alarm" "lambda_duration" {
-  alarm_name          = "${local.lambda_function_name}-duration"
+  alarm_name          = "${var.lambda_function_name}-duration"
   alarm_description   = "file-processor Lambda max duration exceeded 80% of the configured timeout"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 1
@@ -54,20 +38,20 @@ resource "aws_cloudwatch_metric_alarm" "lambda_duration" {
   treat_missing_data  = "notBreaching"
 
   dimensions = {
-    FunctionName = aws_lambda_function.file_processor.function_name
+    FunctionName = var.lambda_function_name
   }
 
   alarm_actions = var.alarm_actions
   ok_actions    = var.alarm_actions
 
-  tags = merge(local.common_tags, {
-    Name = "${local.lambda_function_name}-duration"
+  tags = merge(var.common_tags, {
+    Name = "${var.lambda_function_name}-duration"
   })
 }
 
 # Alert when the function is throttled (reserved concurrency exhausted).
 resource "aws_cloudwatch_metric_alarm" "lambda_throttles" {
-  alarm_name          = "${local.lambda_function_name}-throttles"
+  alarm_name          = "${var.lambda_function_name}-throttles"
   alarm_description   = "file-processor Lambda was throttled due to concurrency limits"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 1
@@ -79,13 +63,13 @@ resource "aws_cloudwatch_metric_alarm" "lambda_throttles" {
   treat_missing_data  = "notBreaching"
 
   dimensions = {
-    FunctionName = aws_lambda_function.file_processor.function_name
+    FunctionName = var.lambda_function_name
   }
 
   alarm_actions = var.alarm_actions
   ok_actions    = var.alarm_actions
 
-  tags = merge(local.common_tags, {
-    Name = "${local.lambda_function_name}-throttles"
+  tags = merge(var.common_tags, {
+    Name = "${var.lambda_function_name}-throttles"
   })
 }

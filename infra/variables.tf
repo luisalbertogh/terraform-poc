@@ -18,6 +18,12 @@ variable "aws_region" {
   default     = "eu-west-1"
 }
 
+variable "destination_bucket_name" {
+  description = "Name of the S3 destination bucket; defaults to 's3-destination-<account_id>' when null"
+  type        = string
+  default     = null
+}
+
 variable "environment" {
   description = "Deployment environment"
   type        = string
@@ -27,6 +33,24 @@ variable "environment" {
     condition     = contains(["dev", "staging", "prod"], var.environment)
     error_message = "environment must be one of: dev, staging, prod."
   }
+}
+
+variable "iam_policy_name" {
+  description = "Name of the Lambda IAM managed policy"
+  type        = string
+  default     = "lambda-s3-access-policy"
+}
+
+variable "iam_role_name" {
+  description = "Name of the Lambda IAM execution role"
+  type        = string
+  default     = "lambda-s3-execution-role"
+}
+
+variable "lambda_function_name" {
+  description = "Name of the Lambda function"
+  type        = string
+  default     = "file-processor"
 }
 
 variable "lambda_memory_mb" {
@@ -57,4 +81,10 @@ variable "project" {
   description = "Project name used in resource naming and tagging"
   type        = string
   default     = "s3lambda"
+}
+
+variable "source_bucket_name" {
+  description = "Name of the S3 source bucket; defaults to 's3-source-<account_id>' when null"
+  type        = string
+  default     = null
 }
