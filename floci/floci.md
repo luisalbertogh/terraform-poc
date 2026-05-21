@@ -221,13 +221,15 @@ Set the environment variables using the CMD or Shel scripts under `floci/`:
 call set-env.cmd
 ```
 
-Add a new `floci` profile under your `.aws/credentials` and `.aws/configure` settings:
+Add a new `floci` profile under your `.aws/credentials`:
 
 ```toml
 [floci]
 aws_access_key_id = test
 aws_secret_access_key = test
 ```
+
+And in `.aws/configure` settings:
 
 ```toml
 [profile floci]
