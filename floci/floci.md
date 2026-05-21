@@ -229,7 +229,7 @@ aws_access_key_id = test
 aws_secret_access_key = test
 ```
 
-And in `.aws/configure` settings:
+And in `.aws/config` settings:
 
 ```toml
 [profile floci]
