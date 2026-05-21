@@ -249,6 +249,10 @@ Then run your AWS CLI commands as usual, but selecting the **floci** profile:
 aws s3 ls --profile floci
 ```
 
+```shell
+aws sts get-caller-identity --profile floci
+```
+
 > [!NOTE]
 > Set `AWS_PROFILE=floci` as an environment variable to skip the profile flag.
 
