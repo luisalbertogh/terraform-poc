@@ -23,7 +23,7 @@ SOURCE_BUCKET = os.environ["SOURCE_BUCKET"]
 DESTINATION_BUCKET = os.environ["DESTINATION_BUCKET"]
 
 # Reuse the boto3 client across warm invocations.
-s3_client = boto3.client("s3")
+s3_client = boto3.client("s3", endpoint_url=os.getenv("S3_ENDPOINT_URL", "http://floci:4566"))
 
 
 def handler(event, context):
