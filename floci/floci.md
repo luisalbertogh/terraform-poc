@@ -185,6 +185,9 @@ aws iam list-roles --query "Roles[*].RoleName"
 
 # List CloudWatch log groups
 aws logs describe-log-groups
+
+# List last log stream
+aws logs describe-log-streams --log-group-name "/aws/lambda/file-processor" --order-by "LastEventTime" --descending --max-items 1
 ```
 
 Upload a test file to trigger the Lambda via the S3 event notification:
