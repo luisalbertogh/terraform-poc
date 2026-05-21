@@ -265,7 +265,12 @@ aws s3 ls --profile floci
 ```
 
 ```shell
-aws sts get-caller-identity --profile floci
+$ aws sts get-caller-identity --profile floci
+{
+    "UserId": "000000000000",
+    "Account": "000000000000",
+    "Arn": "arn:aws:iam::000000000000:root"
+}
 ```
 
 **Optionally**, set the environment variables using the CMD or Shel scripts under `floci/`:
