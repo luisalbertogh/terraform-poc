@@ -1,5 +1,26 @@
 # Running Locally with Floci
 
+
+
+# Running Locally with Floci
+
+## Table of Contents
+
+- [Running Locally with Floci](#running-locally-with-floci)
+- [Running Locally with Floci](#running-locally-with-floci-1)
+  - [Table of Contents](#table-of-contents)
+  - [AWS Services Covered](#aws-services-covered)
+  - [Prerequisites](#prerequisites)
+  - [Step 1 — Create the Docker Compose file](#step-1--create-the-docker-compose-file)
+  - [Step 2 — Create the Terraform provider override](#step-2--create-the-terraform-provider-override)
+  - [Step 3 — Initialize Terraform](#step-3--initialize-terraform)
+  - [Step 4 — Plan and apply](#step-4--plan-and-apply)
+  - [Step 5 — Verify resources with the AWS CLI](#step-5--verify-resources-with-the-aws-cli)
+  - [Teardown](#teardown)
+  - [Troubleshooting](#troubleshooting)
+  - [How to use Floci with AWS CLI](#how-to-use-floci-with-aws-cli)
+  - [S3 Browser Setup](#s3-browser-setup)
+
 [Floci](https://github.com/floci-io/floci) is a free, open-source local AWS emulator — the MIT-licensed successor to LocalStack Community (which was sunset in March 2026). It exposes 45+ AWS-compatible services at `http://localhost:4566`, accepts any non-empty credentials, and requires no AWS account.
 
 ## AWS Services Covered
@@ -215,12 +236,6 @@ Remove-Item -Recurse -Force floci-data
 
 ## How to use Floci with AWS CLI
 
-Set the environment variables using the CMD or Shel scripts under `floci/`:
-
-```shell
-call set-env.cmd
-```
-
 Add a new `floci` profile under your `.aws/credentials`:
 
 ```toml
@@ -251,6 +266,12 @@ aws s3 ls --profile floci
 
 ```shell
 aws sts get-caller-identity --profile floci
+```
+
+**Optionally**, set the environment variables using the CMD or Shel scripts under `floci/`:
+
+```shell
+call set-env.cmd
 ```
 
 > [!NOTE]
