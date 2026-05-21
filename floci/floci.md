@@ -251,3 +251,13 @@ aws s3 ls --profile floci
 > Set `AWS_PROFILE=floci` as an environment variable to skip the profile flag.
 
 The `endpoint_url` and `services` options are needed only for the `AWS Toolkit integration` in `VSCode`.
+
+## S3 Browser Setup
+
+To set up the S3 browser, use the below settings:
+
+![Image](./pics/s3browser.PNG)
+
+And in **advanced settings**:
+
+![Image](./pics/advanced_settings.PNG)

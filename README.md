@@ -4,7 +4,7 @@ Terraform sample project for AWS with best practices.
 
 ## Design
 
-The documents undet `docs/` contain the design and specifications of the infrastructure to build. It has been created using GenAI with **Copilot and Claude Sonnet 4.6**.
+The documents under `docs/` contain the design and specifications of the infrastructure to build. It has been created using GenAI with **Copilot and Claude Sonnet 4.6**.
 
 Additionally, the following AI resources have been applied to fine-grain and customize the output:
 
